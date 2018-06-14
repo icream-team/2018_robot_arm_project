@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/20180602_parent_ex.unity
+  isLoaded: 1
+  isActive: 1

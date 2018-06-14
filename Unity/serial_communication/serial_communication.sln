@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "serial_communication", "serial_communication.csproj", "{F5F6303B-E139-265E-04EC-834740431382}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "serial_communication.Plugins", "serial_communication.Plugins.csproj", "{F0B9A3DD-1871-8DF1-D8D7-12D41ECCC52D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "serial_communication.Editor.Plugins", "serial_communication.Editor.Plugins.csproj", "{76CCE1A7-869C-ADD5-CEED-E03256EBC1D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5F6303B-E139-265E-04EC-834740431382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F6303B-E139-265E-04EC-834740431382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F6303B-E139-265E-04EC-834740431382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F6303B-E139-265E-04EC-834740431382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0B9A3DD-1871-8DF1-D8D7-12D41ECCC52D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0B9A3DD-1871-8DF1-D8D7-12D41ECCC52D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0B9A3DD-1871-8DF1-D8D7-12D41ECCC52D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0B9A3DD-1871-8DF1-D8D7-12D41ECCC52D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76CCE1A7-869C-ADD5-CEED-E03256EBC1D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76CCE1A7-869C-ADD5-CEED-E03256EBC1D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76CCE1A7-869C-ADD5-CEED-E03256EBC1D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76CCE1A7-869C-ADD5-CEED-E03256EBC1D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
