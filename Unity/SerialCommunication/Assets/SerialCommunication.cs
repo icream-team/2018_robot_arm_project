@@ -69,6 +69,8 @@ public class SerialManager
     {
         if (_serialPort.IsOpen) return;
 
+        SetSerialInformation();
+
         _serialPort.Open();
     }
     public void SetSerialClose()
@@ -81,7 +83,6 @@ public class SerialManager
     }
     public void SetStartSerial()
     {
-        SetSerialInformation();
         StartSerialThread();
     }
 
@@ -152,7 +153,7 @@ public class SerialManager
         }
         catch (System.Exception)
         {
-            Debug.Log("System.Exception in ClassifySerialValue");
+            UnityEngine.Debug.Log("System.Exception in ClassifySerialValue");
         }
     }
 
@@ -258,9 +259,8 @@ public class SerialCommunication : MonoBehaviour
 {
     private SerialManager mySerialManager;
 
-    GameObject gun = GameObject.Find("gun") as GameObject;
-
-    public int fingerCommand;
+    private int fingerCommand;
+    private Vector3 temp_rotation, temp_position;
 
     // Use this for initialization
     void Start()
@@ -272,8 +272,16 @@ public class SerialCommunication : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gun.transform.rotation = Quaternion.Euler(mySerialManager.GetAngValue());
-        gun.transform.position = mySerialManager.GetPosValue();
-        this.fingerCommand = mySerialManager.GetFingerValue();
+        temp_rotation = mySerialManager.GetAngValue();
+        temp_rotation.x += 90;
+
+        temp_position = mySerialManager.GetPosValue();
+        temp_position.x += this.transform.position.x;
+        temp_position.y += this.transform.position.y;
+        temp_position.z += this.transform.position.z;
+
+        this.transform.rotation = Quaternion.Euler(temp_rotation);
+        this.transform.position = temp_position;
+        fingerCommand = mySerialManager.GetFingerValue();
     }
 }
