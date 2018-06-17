@@ -89,13 +89,11 @@ public class SerialManager
     // called when get data through the serial
     private void ClassifyFunction()
     {
-        if (!_serialPort.IsOpen) SetSerialOpen();
-        else
-        {
-            if (!isStart) ClassifyHandType();
-            else if (!isClassify) SendStartMessage();
-            else ClassifySerialValue();
-        }
+        if (!_serialPort.IsOpen) return;
+
+        if (!isStart) ClassifyHandType();
+        else if (!isClassify) SendStartMessage();
+        else ClassifySerialValue();
     }
     private void ClassifyHandType()
     {
@@ -160,23 +158,27 @@ public class SerialManager
     // send message to arduino
     private void SendStartMessage()
     {
-        if (!_serialPort.IsOpen) SetSerialOpen();
-        else
-        {
-            _serialPort.Write("DMP");
-            UnityEngine.Debug.Log("DMP");
+        if (!_serialPort.IsOpen) return;
 
-            isClassify = true;
-        }
+        _serialPort.Write("DMP");
+        UnityEngine.Debug.Log("DMP");
+
+       isClassify = true;
     }
     public void SendVibrationMessage(int type, int strength)
     {
-        if (!_serialPort.IsOpen) SetSerialOpen();
-        else
-        {
-            _serialPort.Write("VI" + type + strength);
-            UnityEngine.Debug.Log("VI" + type + strength);
-        }
+        if (!_serialPort.IsOpen) return;
+
+        _serialPort.Write("VI" + type + strength);
+        UnityEngine.Debug.Log("VI" + type + strength);
+    }
+
+    public void SendVibrationMessage(int type)
+    {
+        if (!_serialPort.IsOpen) return;
+
+        _serialPort.Write("VI" + type);
+        UnityEngine.Debug.Log("VI" + type);
     }
 
     // set value received from the arduino
