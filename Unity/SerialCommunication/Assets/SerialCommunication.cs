@@ -182,6 +182,41 @@ public class SerialManager
     }
 
     // set value received from the arduino
+    private float SetStringValuesToFloatValue(string values)
+    {
+        string integer_part = "";
+        string decimal_part = "";
+
+        bool is_negative = false;
+        bool is_there_decimal = false;
+
+        foreach ( char character in values )
+        {
+            if (character == '-') is_negative = true;
+            else if (character == '.') is_there_decimal = true;
+            else
+            {
+                if (is_there_decimal) decimal_part += character;
+                else integer_part += character;
+            }
+        }
+
+        return ( (float) (Int32.Parse(integer_part) + (is_there_decimal ? Int32.Parse(decimal_part) * Math.Pow(10, decimal_part.Length * -1) : 0)) * -1);
+    }
+    private int SetBinaryValuesToIntValue(string values)
+    {
+        int intvalue = 0;
+
+        foreach ( char digit in values )
+        {
+            intvalue += (int)(digit - '0');
+            intvalue <<= 1;
+        }
+
+        intvalue >>= 1;
+
+        return intvalue;
+    }
     private void SetGyroValue(char axis, string values)
     {
 
@@ -195,33 +230,35 @@ public class SerialManager
         switch (axis)
         {
             case 'x':
-                ax = (float)Int32.Parse(values);
+                ax = SetStringValuesToFloatValue(values);
                 break;
             case 'y':
-                ay = (float)Int32.Parse(values);
+                ay = SetStringValuesToFloatValue(values);
                 break;
             case 'z':
-                ay = (float)Int32.Parse(values);
+                az = SetStringValuesToFloatValue(values);
                 break;
         }
 
     }
     private void SetPosValue(char axis, string values)
     {
+        switch (axis)
+        {
+            case 'x':
+                px = SetStringValuesToFloatValue(values);
+                break;
+            case 'y':
+                py = SetStringValuesToFloatValue(values);
+                break;
+            case 'z':
+                pz = SetStringValuesToFloatValue(values);
+                break;
+        }
     }
     private void SetFinValue(string values)
     {
-        int intvalue = 0;
-
-        foreach (char digit in values)
-        {
-            intvalue = intvalue + (int)(digit - '0');
-            intvalue = intvalue << 1;
-        }
-
-        intvalue = intvalue >> 1;
-
-        finger = intvalue;
+        finger = SetBinaryValuesToIntValue(values);
     }
 
     // get measure value
@@ -263,6 +300,11 @@ public class SerialCommunication : MonoBehaviour
 
     private int fingerCommand;
     private Vector3 temp_rotation, temp_position;
+
+    public void setFingerCommand()
+    {
+
+    }
 
     // Use this for initialization
     void Start()
