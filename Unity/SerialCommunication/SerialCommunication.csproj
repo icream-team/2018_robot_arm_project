@@ -228,6 +228,7 @@
     <Compile Include="Assets\Serial\Serial.cs" />
     <Compile Include="Assets\Serial\SerialConfig.cs" />
     <Compile Include="Assets\SerialCommunication.cs" />
+    <Compile Include="Assets\SerialManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
