@@ -301,7 +301,14 @@ public class SerialCommunication : MonoBehaviour
     private int fingerCommand;
     private Vector3 temp_rotation, temp_position;
 
+    public int i;
+
     public void setFingerCommand()
+    {
+
+    }
+
+    public void FireBullet()
     {
 
     }
@@ -311,6 +318,8 @@ public class SerialCommunication : MonoBehaviour
     {
         mySerialManager = new SerialManager();
         mySerialManager.SetSerialOpen();
+
+        i = 0;
     }
 
     // Update is called once per frame
@@ -327,5 +336,9 @@ public class SerialCommunication : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(temp_rotation);
         this.transform.position = temp_position;
         fingerCommand = mySerialManager.GetFingerValue();
+
+        i++;
+
+        if (i == 1000) FireBullet();
     }
 }
