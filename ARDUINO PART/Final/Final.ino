@@ -97,8 +97,6 @@ void dmpDataReady() {
 // ================================================================
 
 void setup() {
-  pinMode(13 , OUTPUT ); //자이로
-  pinMode(12 , OUTPUT );
   pinMode( vibe1 , OUTPUT );
   pinMode( vibe2 , OUTPUT);
   pinMode( MAGNET1 , INPUT);
@@ -106,7 +104,7 @@ void setup() {
   pinMode( MAGNET3 , INPUT);
   pinMode( MAGNET4 , INPUT);
   pinMode( MAGNET5 , INPUT);
-
+// 101713pyz
     // join I2C bus (I2Cdev library doesn't do this automatically)
     #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
         Wire.begin();
@@ -182,7 +180,8 @@ void setup() {
 
 int state_13=0;
 int state_12=0;
-char vibrationcommand;
+int i;
+char vibrationcommand[3];
 boolean finish=false;
 unsigned long preTime = 0;
 void timecheck()
@@ -191,7 +190,7 @@ unsigned long curTime = millis(); // 현재 시각은?
 // (현재시각 > 이전시각+1초)
 if(curTime > preTime+1000) { // 1초 지났니?
 finish=true;
-curTime=0;
+preTime=curTime;
 }
 }
 // ================================================================
@@ -302,13 +301,17 @@ preTime = curTime;
 }
       if(Serial.available()>0)
  {
-      vibrationcommand=Serial.read();
-    if(vibrationcommand!='1'||vibrationcommand!='2')
+  for(i=0;i<2;i++)
+  {
+     vibrationcommand[i] =Serial.read();
+  }
+     
+    if(vibrationcommand[1]!='1'||vibrationcommand[1]!='2')
         {
            analogWrite( vibe1, 0);
             analogWrite( vibe2, 0);
          }
-    if(vibrationcommand='1')
+    if(vibrationcommand[1]='1')
      {
      analogWrite( vibe1, 100);
       analogWrite( vibe2, 100);
@@ -321,11 +324,11 @@ preTime = curTime;
         finish=false;
       }
      }
-    if(vibrationcommand='2')
+    if(vibrationcommand[1]='2')
     {
     //특수공격
     //센 진동
-      analogWrite( vibe1, 300);
+      analogWrite( vibe1, 500);
       analogWrite( vibe2, 300);
        timecheck();
      if(finish)

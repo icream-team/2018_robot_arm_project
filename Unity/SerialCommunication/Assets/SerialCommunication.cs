@@ -15,6 +15,8 @@ public class SerialCommunication : MonoBehaviour
     private int fingerCommand;
     private Vector3 temp_rotation, temp_position;
 
+    private GameObject gun;
+    private GameObject temp_bullet;
     public int i;
 
     public void setFingerCommand()
@@ -24,13 +26,25 @@ public class SerialCommunication : MonoBehaviour
 
     public void FireBullet()
     {
+        var bullet = (GameObject)Instantiate( temp_bullet, temp_bullet.transform.position, gun.transform.rotation);
+
+        // UnityEngine.Debug.Log("fire bullet");
+
+        bullet.GetComponent<Rigidbody>().velocity = ( GameObject.FindGameObjectWithTag("MainCamera") ).transform.forward * 6;
+        Destroy(bullet, 5.0f);
+
+        mySerialManager.SendVibrationMessage(1);
 
     }
 
     // Use this for initialization
     void Start()
     {
+        temp_bullet = (GameObject.FindGameObjectWithTag("EditorOnly"));
+        gun = (GameObject.FindGameObjectWithTag("gun"));
+
         mySerialManager = new SerialManager();
+        mySerialManager.SetSerialPort("COM3");
         mySerialManager.SetSerialOpen();
 
         i = 0;
@@ -39,20 +53,33 @@ public class SerialCommunication : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        temp_rotation = mySerialManager.GetAngValue();
-        temp_rotation.x += 90;
+        try
+        {
+            temp_rotation = mySerialManager.GetAngValue();
+            temp_rotation.x += 90;
 
-        temp_position = mySerialManager.GetPosValue();
-        temp_position.x += this.transform.position.x;
-        temp_position.y += this.transform.position.y;
-        temp_position.z += this.transform.position.z;
+            temp_position = mySerialManager.GetPosValue();
+            temp_position.x += gun.transform.position.x;
+            temp_position.y += gun.transform.position.y;
+            temp_position.z += gun.transform.position.z;
 
-        this.transform.rotation = Quaternion.Euler(temp_rotation);
-        this.transform.position = temp_position;
-        fingerCommand = mySerialManager.GetFingerValue();
+            this.transform.rotation = Quaternion.Euler(temp_rotation);
+            this.transform.position = temp_position;
+            fingerCommand = mySerialManager.GetFingerValue();
+        } catch ( System.Exception )
+        {
+            //UnityEngine.Debug.Log("null exception:serial manage is null");
+        }
 
-        i++;
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            FireBullet();
+        }
 
-        if (i == 1000) FireBullet();
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            mySerialManager.StopSerialThread();
+        }
+
     }
 }

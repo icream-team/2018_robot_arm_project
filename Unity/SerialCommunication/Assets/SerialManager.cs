@@ -17,6 +17,7 @@ public class SerialManager
     private int WriteTimeout = 500;
     private bool isStart = true;
     private bool isClassify = false;
+    private bool isThread = false;
         
     private float ax = 0.0f, ay = 0.0f, az = 0.0f;
     private float px = 0.0f, py = 0.0f, pz = 0.0f;
@@ -63,7 +64,8 @@ public class SerialManager
         _serialPort.ReadTimeout = ReadTimeout;
         _serialPort.WriteTimeout = WriteTimeout;
 
-        if (_serialThread != null) SetSerialThread();
+        SetSerialThread();
+
     }
     public void SetSerialOpen()
     {
@@ -72,6 +74,10 @@ public class SerialManager
         SetSerialInformation();
 
         _serialPort.Open();
+
+        SendStartMessage();
+
+        ClassifyFunction();
     }
     public void SetSerialClose()
     {
@@ -81,19 +87,19 @@ public class SerialManager
 
         _serialPort.Close();
     }
-    public void SetStartSerial()
-    {
-        StartSerialThread();
-    }
 
     // called when get data through the serial
     private void ClassifyFunction()
     {
         if (!_serialPort.IsOpen) return;
 
-        if (!isStart) ClassifyHandType();
-        else if (!isClassify) SendStartMessage();
-        else ClassifySerialValue();
+        UnityEngine.Debug.Log("classify function");
+
+        //if (!isStart) ClassifyHandType();
+        //else
+        //{
+            if (!isThread) StartSerialThread();
+        //}
     }
     private void ClassifyHandType()
     {
@@ -118,29 +124,30 @@ public class SerialManager
 
         try
         {
-            data += _serialPort.ReadChar();
-            data += _serialPort.ReadChar();
+            data += (char)_serialPort.ReadChar();
+            data += (char)_serialPort.ReadChar();
+            UnityEngine.Debug.Log( "data : " + data);
             switch (data)
             {
                 case "GY":
                     data = "" + _serialPort.ReadChar();
                     values = _serialPort.ReadLine();
-                    SetGyroValue(data[0], values);
+                    SetGyroValue((char)data[0], values);
                     break;
                 case "AC":
                     data = "" + _serialPort.ReadChar();
                     values = _serialPort.ReadLine();
-                    SetAccValue(data[0], values);
+                    SetAccValue((char)data[0], values);
                     break;
                 case "AN":
                     data = "" + _serialPort.ReadChar();
                     values = _serialPort.ReadLine();
-                    SetAngValue(data[0], values);
+                    SetAngValue((char)data[0], values);
                     break;
                 case "PO":
                     data = "" + _serialPort.ReadChar();
                     values = _serialPort.ReadLine();
-                    SetPosValue(data[0], values);
+                    SetPosValue((char)data[0], values);
                     break;
                 case "FI":
                     data = "" + _serialPort.ReadChar();
@@ -177,8 +184,8 @@ public class SerialManager
     {
         if (!_serialPort.IsOpen) return;
 
-        _serialPort.Write("VI" + type);
-        UnityEngine.Debug.Log("VI" + type);
+        _serialPort.Write("V" + type);
+        UnityEngine.Debug.Log("V" + type);
     }
 
     // set value received from the arduino
@@ -201,7 +208,7 @@ public class SerialManager
             }
         }
 
-        return ((float)(Int32.Parse(integer_part) + (is_there_decimal ? Int32.Parse(decimal_part) * Math.Pow(10, decimal_part.Length * -1) : 0)) * -1);
+        return ((float)(Int32.Parse(integer_part) + (is_there_decimal ? Int32.Parse(decimal_part) * Math.Pow(10, decimal_part.Length * -1) : 0)) * ( is_negative ? -1 : 1 ));
     }
     private int SetBinaryValuesToIntValue(string values)
     {
@@ -240,6 +247,8 @@ public class SerialManager
                 break;
         }
 
+        UnityEngine.Debug.Log(axis + " axis pos value  : " + values);
+
     }
     private void SetPosValue(char axis, string values)
     {
@@ -255,10 +264,14 @@ public class SerialManager
                 pz = SetStringValuesToFloatValue(values);
                 break;
         }
+
+        UnityEngine.Debug.Log(axis + " axis pos value  : " + values);
     }
     private void SetFinValue(string values)
     {
         finger = SetBinaryValuesToIntValue(values);
+
+        UnityEngine.Debug.Log( "finger signal : " + finger );
     }
 
     // get measure value
@@ -280,16 +293,24 @@ public class SerialManager
     }
 
     // thread
+    private void SerialThread()
+    {
+        while (isThread)
+            ClassifySerialValue();
+    }
     private void SetSerialThread()
     {
-        _serialThread = new Thread(ClassifyFunction);
+        _serialThread = new Thread(SerialThread);
     }
     private void StartSerialThread()
     {
+        if (isThread) return;
+
         _serialThread.Start();
+        isThread = true;
     }
-    private void StopSerialThread()
+    public void StopSerialThread()
     {
-        _serialThread.Join();
+        isThread = false;
     }
 }
