@@ -17,6 +17,7 @@ public class SerialCommunication : MonoBehaviour
 
     private GameObject gun;
     private GameObject temp_bullet;
+    private GameObject camera;
     public int i;
 
     public void setFingerCommand()
@@ -30,10 +31,18 @@ public class SerialCommunication : MonoBehaviour
 
         // UnityEngine.Debug.Log("fire bullet");
 
-        bullet.GetComponent<Rigidbody>().velocity = ( GameObject.FindGameObjectWithTag("MainCamera") ).transform.forward * 6;
+        bullet.GetComponent<Rigidbody>().velocity = gun.transform.forward * 6;
+
         Destroy(bullet, 5.0f);
 
         mySerialManager.SendVibrationMessage(1);
+
+        //UnityEngine.Debug.Log("x pos : " + gun.transform.position.x);
+        //UnityEngine.Debug.Log("y pos : " + gun.transform.position.y);
+        //UnityEngine.Debug.Log("z pos : " + gun.transform.position.z);
+        //UnityEngine.Debug.Log("x ang : " + gun.transform.rotation.x);
+        //UnityEngine.Debug.Log("y ang : " + gun.transform.rotation.y);
+        //UnityEngine.Debug.Log("z ang : " + gun.transform.rotation.z);
 
     }
 
@@ -53,6 +62,8 @@ public class SerialCommunication : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
+
         try
         {
             temp_rotation = mySerialManager.GetAngValue();
@@ -62,6 +73,8 @@ public class SerialCommunication : MonoBehaviour
             temp_position.x += gun.transform.position.x;
             temp_position.y += gun.transform.position.y;
             temp_position.z += gun.transform.position.z;
+
+            camera.transform.position = gun.transform.position;
 
             this.transform.rotation = Quaternion.Euler(temp_rotation);
             this.transform.position = temp_position;

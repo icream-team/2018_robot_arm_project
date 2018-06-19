@@ -121,33 +121,34 @@ public class SerialManager
     {
         string data = "";
         string values;
+        char character;
 
         try
         {
             data += (char)_serialPort.ReadChar();
             data += (char)_serialPort.ReadChar();
-            UnityEngine.Debug.Log( "data : " + data);
+            // UnityEngine.Debug.Log( "data : " + data);
             switch (data)
             {
                 case "GY":
-                    data = "" + _serialPort.ReadChar();
+                    character = (char)_serialPort.ReadChar();
                     values = _serialPort.ReadLine();
-                    SetGyroValue((char)data[0], values);
+                    SetGyroValue(character, values);
                     break;
                 case "AC":
-                    data = "" + _serialPort.ReadChar();
+                    character = (char)_serialPort.ReadChar();
                     values = _serialPort.ReadLine();
-                    SetAccValue((char)data[0], values);
+                    SetAccValue(character, values);
                     break;
                 case "AN":
-                    data = "" + _serialPort.ReadChar();
+                    character = (char)_serialPort.ReadChar();
                     values = _serialPort.ReadLine();
-                    SetAngValue((char)data[0], values);
+                    SetAngValue(character, values);
                     break;
                 case "PO":
-                    data = "" + _serialPort.ReadChar();
+                    character = (char)_serialPort.ReadChar();
                     values = _serialPort.ReadLine();
-                    SetPosValue((char)data[0], values);
+                    SetPosValue(character, values);
                     break;
                 case "FI":
                     data = "" + _serialPort.ReadChar();
@@ -236,42 +237,42 @@ public class SerialManager
     {
         switch (axis)
         {
-            case 'x':
+            case 'X':
                 ax = SetStringValuesToFloatValue(values);
                 break;
-            case 'y':
+            case 'Y':
                 ay = SetStringValuesToFloatValue(values);
                 break;
-            case 'z':
+            case 'Z':
                 az = SetStringValuesToFloatValue(values);
                 break;
         }
 
-        UnityEngine.Debug.Log(axis + " axis pos value  : " + values);
+        // UnityEngine.Debug.Log(axis + " axis pos value  : " + values);
 
     }
     private void SetPosValue(char axis, string values)
     {
         switch (axis)
         {
-            case 'x':
+            case 'X':
                 px = SetStringValuesToFloatValue(values);
                 break;
-            case 'y':
+            case 'Y':
                 py = SetStringValuesToFloatValue(values);
                 break;
-            case 'z':
+            case 'Z':
                 pz = SetStringValuesToFloatValue(values);
                 break;
         }
 
-        UnityEngine.Debug.Log(axis + " axis pos value  : " + values);
+        // UnityEngine.Debug.Log(axis + " axis pos value  : " + values);
     }
     private void SetFinValue(string values)
     {
         finger = SetBinaryValuesToIntValue(values);
 
-        UnityEngine.Debug.Log( "finger signal : " + finger );
+        // UnityEngine.Debug.Log( "finger signal : " + finger );
     }
 
     // get measure value

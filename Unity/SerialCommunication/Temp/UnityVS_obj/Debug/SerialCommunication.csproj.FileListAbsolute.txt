@@ -119,7 +119,6 @@ G:\2018\여성메이커사업\아이스크림팀\robot arm\Unity\SerialCommunica
 G:\2018\여성메이커사업\아이스크림팀\robot arm\Unity\SerialCommunication\Temp\UnityVS_bin\Debug\UnityEngine.GoogleAudioSpatializer.xml
 G:\2018\여성메이커사업\아이스크림팀\robot arm\Unity\SerialCommunication\Temp\UnityVS_bin\Debug\UnityEngine.HoloLens.xml
 G:\2018\여성메이커사업\아이스크림팀\robot arm\Unity\SerialCommunication\Temp\UnityVS_bin\Debug\UnityEngine.SpatialTracking.xml
-G:\2018\여성메이커사업\아이스크림팀\robot arm\Unity\SerialCommunication\Temp\UnityVS_obj\Debug\SerialCommunication.csprojResolveAssemblyReference.cache
 G:\2018\여성메이커사업\아이스크림팀\robot arm\Unity\SerialCommunication\Temp\UnityVS_obj\Debug\SerialCommunication.csproj.CoreCompileInputs.cache
 G:\2018\여성메이커사업\아이스크림팀\robot arm\Unity\SerialCommunication\Temp\UnityVS_obj\Debug\SerialCommunication.csproj.CopyComplete
 G:\2018\여성메이커사업\아이스크림팀\robot arm\Unity\SerialCommunication\Temp\UnityVS_obj\Debug\Assembly-CSharp.dll
