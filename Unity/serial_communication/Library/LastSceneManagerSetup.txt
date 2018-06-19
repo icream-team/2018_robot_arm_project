@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/serial_communication_with_uno.unity
-  isLoaded: 1
-  isActive: 1
