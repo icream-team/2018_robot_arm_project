@@ -312,7 +312,7 @@ public class SerialManager
     }
     public int GetFingerValue()
     {
-        return finger;
+        return finger - 1;
     }
 
     // thread

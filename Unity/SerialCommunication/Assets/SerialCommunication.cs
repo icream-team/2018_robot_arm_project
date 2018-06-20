@@ -19,21 +19,29 @@ public class SerialCommunication : MonoBehaviour
     private GameObject temp_bullet;
     private GameObject camera;
     public int i;
+    private bool isBullet = false;
 
-    public void setFingerCommand()
+    public void SetFingerCommand()
     {   
 
     }
 
-    public void FireBullet()
+    public void FireBullet( )
     {
-        var bullet = (GameObject)Instantiate( temp_bullet, temp_bullet.transform.position, gun.transform.rotation);
-
         // UnityEngine.Debug.Log("fire bullet");
 
-        bullet.GetComponent<Rigidbody>().velocity = gun.transform.forward * -6;
-
-        Destroy(bullet, 5.0f);
+        for ( int i = -1; i <= 1; i++ )
+        {
+            for ( int j = -1; j <= 1; j++ )
+            {
+                for( int k = -1; k <= 1; k++ )
+                {
+                    var bullet = (GameObject)Instantiate(temp_bullet, temp_bullet.transform.position, temp_bullet.transform.rotation);
+                    bullet.GetComponent<Rigidbody>().velocity = new Vector3( i * 1.0f, j * 1.0f, k * 1.0f ) * 6;
+                    Destroy(bullet, 5.0f);
+                }
+            }
+        }
 
         mySerialManager.SendVibrationMessage(1);
 
@@ -66,7 +74,7 @@ public class SerialCommunication : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        camera = GameObject.FindGameObjectWithTag("Player");
 
         try
         {
@@ -91,6 +99,9 @@ public class SerialCommunication : MonoBehaviour
             //camera.transform.position = camera_position;
 
             fingerCommand = mySerialManager.GetFingerValue();
+                
+            if (fingerCommand == 24) FireBullet();
+
         } catch ( System.Exception )
         {
             //UnityEngine.Debug.Log("null exception:serial manage is null");
