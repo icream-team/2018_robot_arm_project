@@ -18,6 +18,10 @@ public class SerialManager
     private bool isStart = true;
     private bool isClassify = false;
     private bool isThread = false;
+
+    private bool isax = false, isay = false, isaz = false;
+
+    private float xw = 0.0f, yw = 0.0f, zw = 0.0f;
         
     private float ax = 0.0f, ay = 0.0f, az = 0.0f;
     private float px = 0.0f, py = 0.0f, pz = 0.0f;
@@ -159,7 +163,7 @@ public class SerialManager
         }
         catch (System.Exception)
         {
-            UnityEngine.Debug.Log("System.Exception in ClassifySerialValue");
+            UnityEngine.Debug.Log("System.Exception in ClassifySerialValue ");
         }
     }
 
@@ -239,12 +243,30 @@ public class SerialManager
         {
             case 'X':
                 ax = SetStringValuesToFloatValue(values);
+                if( !isax )
+                {
+                    xw = (float)(88 - ax);
+                    isax = true;
+                }
+                ax = xw + ax;
                 break;
             case 'Y':
-                ay = SetStringValuesToFloatValue(values);
+                ay = SetStringValuesToFloatValue(values) * 1;
+                if( !isay )
+                {
+                    yw = (float)(-14 - ay);
+                    isay = true;
+                }
+                ay = yw + ay;
                 break;
             case 'Z':
-                az = SetStringValuesToFloatValue(values);
+                az = SetStringValuesToFloatValue(values) * 1;
+                if( !isaz)
+                {
+                    zw = (float)(-14 - az);
+                    isaz = true;
+                }
+                az = zw + az;
                 break;
         }
 
@@ -272,7 +294,7 @@ public class SerialManager
     {
         finger = SetBinaryValuesToIntValue(values);
 
-        // UnityEngine.Debug.Log( "finger signal : " + finger );
+        UnityEngine.Debug.Log( "finger signal : " + finger );
     }
 
     // get measure value

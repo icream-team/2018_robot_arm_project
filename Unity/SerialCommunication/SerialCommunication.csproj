@@ -212,6 +212,9 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="Managed-PVR">
+      <HintPath>Assets/Plugins/Managed-PVR.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/derba/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
     </Reference>
@@ -220,6 +223,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\PVRUnity\Sample\RecenterTest.cs" />
+    <Compile Include="Assets\PVRUnity\src\DLLSearchPathFixer.cs" />
+    <Compile Include="Assets\PVRUnity\src\GetParent.cs" />
+    <Compile Include="Assets\PVRUnity\src\Math.cs" />
+    <Compile Include="Assets\PVRUnity\src\PVREyeOffset.cs" />
+    <Compile Include="Assets\PVRUnity\src\PVRInputEvent.cs" />
+    <Compile Include="Assets\PVRUnity\src\PVRPoseTracking.cs" />
+    <Compile Include="Assets\PVRUnity\src\PVRRenderLib.cs" />
+    <Compile Include="Assets\PVRUnity\src\PVRSession.cs" />
+    <Compile Include="Assets\PVRUnity\src\PVRSurface.cs" />
     <Compile Include="Assets\Serial\Demo\assets\ButtonHandler.cs" />
     <Compile Include="Assets\Serial\Demo\assets\GUISendCommand.cs" />
     <Compile Include="Assets\Serial\Demo\assets\LastLine.cs" />

@@ -13,7 +13,7 @@ public class SerialCommunication : MonoBehaviour
     private SerialManager mySerialManager;
 
     private int fingerCommand;
-    private Vector3 temp_rotation, temp_position;
+    private Vector3 temp_rotation, temp_position, camera_rotation, camera_position;
 
     private GameObject gun;
     private GameObject temp_bullet;
@@ -31,7 +31,7 @@ public class SerialCommunication : MonoBehaviour
 
         // UnityEngine.Debug.Log("fire bullet");
 
-        bullet.GetComponent<Rigidbody>().velocity = gun.transform.forward * 6;
+        bullet.GetComponent<Rigidbody>().velocity = gun.transform.forward * -6;
 
         Destroy(bullet, 5.0f);
 
@@ -49,11 +49,15 @@ public class SerialCommunication : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        temp_bullet = (GameObject.FindGameObjectWithTag("EditorOnly"));
+        //temp_bullet.renderer.material.color(1, 1, 1, 0);
         gun = (GameObject.FindGameObjectWithTag("gun"));
+        temp_bullet = (GameObject.FindGameObjectWithTag("EditorOnly"));
+        temp_bullet.transform.parent = gun.transform;
 
         mySerialManager = new SerialManager();
         mySerialManager.SetSerialPort("COM3");
+        mySerialManager.SetReadTimeout(100);
+        mySerialManager.SetWriteTimeout(100);
         mySerialManager.SetSerialOpen();
 
         i = 0;
@@ -67,17 +71,25 @@ public class SerialCommunication : MonoBehaviour
         try
         {
             temp_rotation = mySerialManager.GetAngValue();
-            temp_rotation.x += 90;
+            //temp_rotation.z *= -1;
 
-            temp_position = mySerialManager.GetPosValue();
-            temp_position.x += gun.transform.position.x;
-            temp_position.y += gun.transform.position.y;
-            temp_position.z += gun.transform.position.z;
+            //temp_position = mySerialManager.GetPosValue();
+            //temp_position.x += gun.transform.position.x;
+            //temp_position.y += gun.transform.position.y;
+            //temp_position.z += gun.transform.position.z;
+            //camera_position.x = temp_position.x - 2;
+            //camera_position.y = temp_position.y - 1;
+            //camera_position.z = temp_position.z - 3;
 
-            camera.transform.position = gun.transform.position;
 
-            this.transform.rotation = Quaternion.Euler(temp_rotation);
-            this.transform.position = temp_position;
+
+            this.transform.rotation = Quaternion.Euler( temp_rotation );
+            //bullets.transform.rotation = Quaternion.Euler(temp_rotation);
+            //this.transform.position = temp_position;
+
+            //camera.transform.rotation = Quaternion.Euler(camera_rotation);
+            //camera.transform.position = camera_position;
+
             fingerCommand = mySerialManager.GetFingerValue();
         } catch ( System.Exception )
         {
@@ -92,6 +104,7 @@ public class SerialCommunication : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Tab))
         {
             mySerialManager.StopSerialThread();
+            Application.Quit();
         }
 
     }

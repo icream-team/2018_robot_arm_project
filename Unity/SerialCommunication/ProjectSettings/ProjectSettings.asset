@@ -245,6 +245,8 @@ PlayerSettings:
     m_Devices:
     - Oculus
     - OpenVR
+    - split
+    - None
   m_BuildTargetEnableVuforiaSettings: []
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
